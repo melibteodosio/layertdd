@@ -6,3 +6,5 @@ INSERT INTO tb_user(name, email, username, password) VALUES ('Philip Delouise', 
 INSERT INTO tb_account(agency, account_number, digit, user_id) VALUES (4578, '12456558', 3, 2);
 INSERT INTO tb_account(agency, account_number, digit, user_id) VALUES (4578, '12456444', 1, 4);
 INSERT INTO tb_account(agency, account_number, digit, user_id) VALUES (4578, '12456653', 5, 3);
+
+INSERT INTO tb_transaction(type ,amount ,account_id, user_id) VALUES (1, 300, 1, 2);
