@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -20,21 +22,13 @@ public class UpdateUserController {
     private final UpdateUserService updateUserService;
 
     @PutMapping("/")
-    public ResponseEntity<UpdateUserRequest> updateUser(@RequestBody UpdateUserRequest updateUserRequest) {
-        try {
-            User userToUpdate = UpdateUserRequestMapper.INSTANCE.updateRequestToUser(updateUserRequest);
-            User updatedUser = updateUserService.updateUser(userToUpdate);
-            UpdateUserRequest updatedUserResponse = UpdateUserRequestMapper.INSTANCE.userToUpdateRequest(updatedUser);
-            if (updatedUser != null) {
-                return new ResponseEntity<>(updatedUserResponse, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            }
+    public ResponseEntity<UpdateUserRequest> updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest) {
+        User userToUpdate = UpdateUserRequestMapper.INSTANCE.updateRequestToUser(updateUserRequest);
+        User updatedUser = updateUserService.updateUser(userToUpdate);
+        UpdateUserRequest updatedUserResponse = UpdateUserRequestMapper.INSTANCE.userToUpdateRequest(updatedUser);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(updatedUserResponse, HttpStatus.OK);
+
     }
 
 }

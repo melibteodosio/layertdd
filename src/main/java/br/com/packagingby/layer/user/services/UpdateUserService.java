@@ -1,6 +1,7 @@
 package br.com.packagingby.layer.user.services;
 
 import br.com.packagingby.layer.beans.ObjectMapper;
+import br.com.packagingby.layer.exceptions.BadRequestException;
 import br.com.packagingby.layer.user.entities.User;
 import br.com.packagingby.layer.user.repositories.UsersRepository;
 import lombok.NonNull;
@@ -18,11 +19,11 @@ public class UpdateUserService {
         User userExists;
 
         if (userUpdateData.getId() == 0L && StringUtils.isBlank(userUpdateData.getUsername())) {
-            return null;
+            throw new BadRequestException("Neither Id or Username provided");
         }
 
         if (StringUtils.isBlank(userUpdateData.getName()) && StringUtils.isBlank(userUpdateData.getEmail())) {
-            return null;
+            throw new BadRequestException("Neither Name or Email provided");
         }
 
         userExists = usersRepository.findById(userUpdateData.getId()).orElse(null);
@@ -36,7 +37,7 @@ public class UpdateUserService {
             return usersRepository.save(userToUpdate);
         }
 
-        return null;
+        throw new BadRequestException("User to update not found");
     }
 
 }

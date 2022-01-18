@@ -1,5 +1,6 @@
 package br.com.packagingby.layer.user.services;
 
+import br.com.packagingby.layer.exceptions.BadRequestException;
 import br.com.packagingby.layer.user.entities.User;
 import br.com.packagingby.layer.user.repositories.UsersRepository;
 import br.com.packagingby.layer.user.util.UserData;
@@ -92,20 +93,17 @@ class GetUserServiceTest {
     @DisplayName("Should not return user information when user id does not exist")
     void shouldNotReturnUserInformationWhenUserIdDoesNotExist() {
 
-        User foundUser = getUser.getUserById(0L);
-
-        Assertions.assertThat(foundUser)
-                .isNull();
-
+        Assertions.assertThatThrownBy(() -> getUser.getUserById(0L))
+                .hasMessage("User not found")
+                .isInstanceOf(BadRequestException.class);
     }
 
     @Test
     @DisplayName("Should not return user information when username does not exist")
     void shouldNotReturnUserInformationWhenUsernameDoesNotExist() {
-        User foundUser = getUser.getUserByUsername("NotExist");
-
-        Assertions.assertThat(foundUser)
-                .isNull();
+        Assertions.assertThatThrownBy(() -> getUser.getUserByUsername("NotExist"))
+                .hasMessage("User not found")
+                .isInstanceOf(BadRequestException.class);
     }
 
 }

@@ -1,5 +1,6 @@
 package br.com.packagingby.layer.user.controllers.unit;
 
+import br.com.packagingby.layer.exceptions.BadRequestException;
 import br.com.packagingby.layer.user.DTOs.UpdateUserRequest;
 import br.com.packagingby.layer.user.controllers.UpdateUserController;
 import br.com.packagingby.layer.user.entities.User;
@@ -35,7 +36,7 @@ class UpdateUserControllerTest {
                 .thenAnswer(invocation -> {
                     User userToUpdate = invocation.getArgument(0, User.class);
                     if (userToUpdate.getId() == 0L && StringUtils.isEmpty(userToUpdate.getUsername())) {
-                        return null;
+                        throw new BadRequestException("User not found");
                     } else {
                         return UserData.createUpdatedUser();
                     }
@@ -136,16 +137,10 @@ class UpdateUserControllerTest {
         UpdateUserRequest updateUserRequest = UpdateUserRequestData.createUpdateByUsernameUserRequest();
         updateUserRequest.setUsername("");
 
-        ResponseEntity<UpdateUserRequest> updatedUser = updateUserController.updateUser(updateUserRequest);
+        Assertions.assertThatThrownBy(() -> updateUserController.updateUser(updateUserRequest))
+                .hasMessage("User not found")
+                .isInstanceOf(BadRequestException.class);
 
-        Assertions.assertThat(updatedUser)
-                .isNotNull();
-
-        Assertions.assertThat(updatedUser.getBody())
-                .isNull();
-
-        Assertions.assertThat(updatedUser.getStatusCode())
-                .isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
@@ -155,16 +150,9 @@ class UpdateUserControllerTest {
         updateUserRequest.setId(0L);
         updateUserRequest.setUsername(null);
 
-        ResponseEntity<UpdateUserRequest> updatedUser = updateUserController.updateUser(updateUserRequest);
-
-        Assertions.assertThat(updatedUser)
-                .isNotNull();
-
-        Assertions.assertThat(updatedUser.getBody())
-                .isNull();
-
-        Assertions.assertThat(updatedUser.getStatusCode())
-                .isEqualTo(HttpStatus.BAD_REQUEST);
+        Assertions.assertThatThrownBy(() -> updateUserController.updateUser(updateUserRequest))
+                .hasMessage("User not found")
+                .isInstanceOf(BadRequestException.class);
     }
 
 }

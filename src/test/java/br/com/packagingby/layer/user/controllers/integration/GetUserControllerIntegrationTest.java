@@ -100,7 +100,7 @@ public class GetUserControllerIntegrationTest {
         Assertions.assertThat(getUserByIdExceptionResponse.getBody())
                 .isNull();
 
-        Assertions.assertThat(getUserByIdExceptionResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(getUserByIdExceptionResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
     }
 

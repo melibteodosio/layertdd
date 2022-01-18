@@ -66,6 +66,9 @@ class UpdateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(updatedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(updatedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(updatedUser.getStatusCode())
@@ -117,6 +120,9 @@ class UpdateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(updatedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(updatedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(updatedUser.getStatusCode())
@@ -195,6 +201,9 @@ class UpdateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(updatedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(updatedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(updatedUser.getStatusCode())
@@ -217,6 +226,9 @@ class UpdateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(updatedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(updatedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(updatedUser.getStatusCode())
@@ -240,6 +252,9 @@ class UpdateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(updatedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(updatedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(updatedUser.getStatusCode())
@@ -263,6 +278,9 @@ class UpdateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(updatedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(updatedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(updatedUser.getStatusCode())
@@ -285,6 +303,9 @@ class UpdateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(updatedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(updatedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(updatedUser.getStatusCode())
@@ -306,6 +327,9 @@ class UpdateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(updatedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(updatedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(updatedUser.getStatusCode())
@@ -328,6 +352,9 @@ class UpdateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(updatedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(updatedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(updatedUser.getStatusCode())

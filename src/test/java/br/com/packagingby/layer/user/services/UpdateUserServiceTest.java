@@ -1,6 +1,7 @@
 package br.com.packagingby.layer.user.services;
 
 import br.com.packagingby.layer.beans.ObjectMapper;
+import br.com.packagingby.layer.exceptions.BadRequestException;
 import br.com.packagingby.layer.user.entities.User;
 import br.com.packagingby.layer.user.repositories.UsersRepository;
 import br.com.packagingby.layer.user.util.UserData;
@@ -117,10 +118,9 @@ class UpdateUserServiceTest {
         updateUserData.setEmail(null);
         updateUserData.setName(null);
 
-        User updatedUser = updateUserService.updateUser(updateUserData);
-
-        Assertions.assertThat(updatedUser)
-                .isNull();
+        Assertions.assertThatThrownBy(() -> updateUserService.updateUser(updateUserData))
+                .hasMessage("Neither Name or Email provided")
+                .isInstanceOf(BadRequestException.class);
     }
 
     @Test
@@ -130,10 +130,9 @@ class UpdateUserServiceTest {
         updateUserData.setEmail(null);
         updateUserData.setName(null);
 
-        User updatedUser = updateUserService.updateUser(updateUserData);
-
-        Assertions.assertThat(updatedUser)
-                .isNull();
+        Assertions.assertThatThrownBy(() -> updateUserService.updateUser(updateUserData))
+                .hasMessage("Neither Name or Email provided")
+                .isInstanceOf(BadRequestException.class);
     }
 
     @Test
@@ -144,10 +143,9 @@ class UpdateUserServiceTest {
         updateUserData.setEmail("");
         updateUserData.setName("");
 
-        User updatedUser = updateUserService.updateUser(updateUserData);
-
-        Assertions.assertThat(updatedUser)
-                .isNull();
+        Assertions.assertThatThrownBy(() -> updateUserService.updateUser(updateUserData))
+                .hasMessage("Neither Name or Email provided")
+                .isInstanceOf(BadRequestException.class);
     }
 
     @Test
@@ -158,10 +156,9 @@ class UpdateUserServiceTest {
         updateUserData.setEmail("");
         updateUserData.setName("");
 
-        User updatedUser = updateUserService.updateUser(updateUserData);
-
-        Assertions.assertThat(updatedUser)
-                .isNull();
+        Assertions.assertThatThrownBy(() -> updateUserService.updateUser(updateUserData))
+                .hasMessage("Neither Name or Email provided")
+                .isInstanceOf(BadRequestException.class);
     }
 
     @Test
@@ -171,10 +168,9 @@ class UpdateUserServiceTest {
         User updateUserData = UserData.createUpdateByIdUserRequest();
         updateUserData.setId(-1L);
 
-        User updatedUser = updateUserService.updateUser(updateUserData);
-
-        Assertions.assertThat(updatedUser)
-                .isNull();
+        Assertions.assertThatThrownBy(() -> updateUserService.updateUser(updateUserData))
+                .hasMessage("User to update not found")
+                .isInstanceOf(BadRequestException.class);
     }
 
     @Test
@@ -182,11 +178,9 @@ class UpdateUserServiceTest {
     void shouldNotUpdateUserWhenUsernameDoesNotExists() {
         User updateUserData = UserData.createUpdateByUsernameUserRequest();
         updateUserData.setUsername("");
-
-        User updatedUser = updateUserService.updateUser(updateUserData);
-
-        Assertions.assertThat(updatedUser)
-                .isNull();
+        Assertions.assertThatThrownBy(() -> updateUserService.updateUser(updateUserData))
+                .hasMessage("Neither Id or Username provided")
+                .isInstanceOf(BadRequestException.class);
     }
 
     @Test
@@ -196,10 +190,9 @@ class UpdateUserServiceTest {
         updateUserData.setId(0L);
         updateUserData.setUsername(null);
 
-        User updatedUser = updateUserService.updateUser(updateUserData);
-
-        Assertions.assertThat(updatedUser)
-                .isNull();
+        Assertions.assertThatThrownBy(() -> updateUserService.updateUser(updateUserData))
+                .hasMessage("Neither Id or Username provided")
+                .isInstanceOf(BadRequestException.class);
     }
 
 }

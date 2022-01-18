@@ -1,5 +1,6 @@
 package br.com.packagingby.layer.user.controllers.unit;
 
+import br.com.packagingby.layer.exceptions.BadRequestException;
 import br.com.packagingby.layer.user.DTOs.CreateUserRequest;
 import br.com.packagingby.layer.user.controllers.CreateUserController;
 import br.com.packagingby.layer.user.entities.User;
@@ -18,8 +19,10 @@ import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.validation.ValidationException;
+
 
 @ExtendWith(SpringExtension.class)
 class CreateUserControllerTest {
@@ -30,14 +33,14 @@ class CreateUserControllerTest {
     private CreateUserService createUserServiceMock;
 
     @BeforeEach
-    void setUpMocks() throws Exception {
+    void setUpMocks(){
         BDDMockito.when(createUserServiceMock.saveUser(ArgumentMatchers.isA(User.class)))
                 .thenAnswer(invocation -> {
                     User userExists = invocation.getArgument(0, User.class);
                     if (userExists.getUsername().equals("alreadyExists")) {
-                        return new Exception("User already exists");
+                        throw new BadRequestException("User already exists");
                     } else if (userExists.getEmail().equals("alreadyExists@gmail.com")) {
-                        return new Exception("User already exists");
+                        throw new BadRequestException("User already exists");
                     }
                     return UserData.createValidUser();
                 });
@@ -60,29 +63,20 @@ class CreateUserControllerTest {
                 .isEqualTo(HttpStatus.CREATED);
 
         Assertions.assertThat(savedUser.getBody().getId())
-                .isGreaterThan(0L);
+                .isPositive();
     }
 
     @Test
     @DisplayName("Should not create a new user when required information is not provided")
-    void shouldNotCreateANewUserWhenRequiredInformationIsNotProvided() throws Exception {
-
+    void shouldNotCreateANewUserWhenRequiredInformationIsNotProvided(){
         BDDMockito.when(createUserServiceMock.saveUser(ArgumentMatchers.isA(User.class)))
                 .thenThrow(ValidationException.class);
 
         CreateUserRequest userToBeSaved = CreateUserRequestData.createUserRequest();
         userToBeSaved.setName("");
 
-        ResponseEntity<User> savedUser = createUserController.createUser(userToBeSaved);
-
-        Assertions.assertThat(savedUser)
-                .isNotNull();
-
-        Assertions.assertThat(savedUser.getBody())
-                .isNull();
-
-        Assertions.assertThat(savedUser.getStatusCode())
-                .isEqualTo(HttpStatus.BAD_REQUEST);
+        Assertions.assertThatThrownBy(() -> createUserController.createUser(userToBeSaved))
+                .isInstanceOf(ValidationException.class);
 
     }
 
@@ -92,16 +86,9 @@ class CreateUserControllerTest {
         CreateUserRequest userToBeSaved = CreateUserRequestData.createUserRequest();
         userToBeSaved.setEmail("alreadyExists@gmail.com");
 
-        ResponseEntity<User> savedUser = createUserController.createUser(userToBeSaved);
-
-        Assertions.assertThat(savedUser)
-                .isNotNull();
-
-        Assertions.assertThat(savedUser.getBody())
-                .isNull();
-
-        Assertions.assertThat(savedUser.getStatusCode())
-                .isEqualTo(HttpStatus.BAD_REQUEST);
+        Assertions.assertThatThrownBy(() -> createUserController.createUser(userToBeSaved))
+                .hasMessage("User already exists")
+                .isInstanceOf(BadRequestException.class);
     }
 
     @Test
@@ -110,16 +97,9 @@ class CreateUserControllerTest {
         CreateUserRequest userToBeSaved = CreateUserRequestData.createUserRequest();
         userToBeSaved.setUsername("alreadyExists");
 
-        ResponseEntity<User> savedUser = createUserController.createUser(userToBeSaved);
-
-        Assertions.assertThat(savedUser)
-                .isNotNull();
-
-        Assertions.assertThat(savedUser.getBody())
-                .isNull();
-
-        Assertions.assertThat(savedUser.getStatusCode())
-                .isEqualTo(HttpStatus.BAD_REQUEST);
+        Assertions.assertThatThrownBy(() -> createUserController.createUser(userToBeSaved))
+                .hasMessage("User already exists")
+                .isInstanceOf(BadRequestException.class);
 
     }
 

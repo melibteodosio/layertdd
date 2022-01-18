@@ -44,7 +44,7 @@ class CreateUserControllerIntegrationTest {
                 .isEqualTo(HttpStatus.CREATED);
 
         Assertions.assertThat(savedUser.getBody().getId())
-                .isGreaterThan(0L);
+                .isPositive();
     }
 
     @Test
@@ -63,6 +63,9 @@ class CreateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(savedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(savedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(savedUser.getStatusCode())
@@ -91,6 +94,9 @@ class CreateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(alreadySavedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(alreadySavedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(alreadySavedUser.getStatusCode())
@@ -118,6 +124,9 @@ class CreateUserControllerIntegrationTest {
                 .isNotNull();
 
         Assertions.assertThat(alreadySavedUser.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(alreadySavedUser.getBody().getName())
                 .isNull();
 
         Assertions.assertThat(alreadySavedUser.getStatusCode())

@@ -1,5 +1,6 @@
 package br.com.packagingby.layer.user.controllers.unit;
 
+import br.com.packagingby.layer.exceptions.BadRequestException;
 import br.com.packagingby.layer.user.controllers.DeleteUserController;
 import br.com.packagingby.layer.user.entities.User;
 import br.com.packagingby.layer.user.services.DeleteUserService;
@@ -27,12 +28,13 @@ class DeleteUserControllerTest {
     private DeleteUserService deleteUserServiceMock;
 
     @BeforeEach
-    void setUpMocks() throws Exception {
+    void setUpMocks(){
         BDDMockito.when(deleteUserServiceMock.deleteUserById(ArgumentMatchers.longThat(argument -> argument == 1L)))
                 .thenReturn(UserData.createValidUser());
 
         BDDMockito.when(deleteUserServiceMock.deleteUserById(ArgumentMatchers.longThat(argument -> argument == 0L)))
-                .thenThrow(Exception.class);
+                .thenThrow(new BadRequestException("User doesn't exists."));
+
     }
 
     @Test
@@ -61,17 +63,9 @@ class DeleteUserControllerTest {
     @DisplayName("Should not delete an user when user not found")
     void shouldNotDeleteAnUserWhenUserNotFound() {
 
-        ResponseEntity<User> userNotDeleted = deleteUserController.deleteUser(0L);
-
-        Assertions.assertThat(userNotDeleted)
-                .isNotNull();
-
-        Assertions.assertThat(userNotDeleted.getStatusCode())
-                .isEqualTo(HttpStatus.BAD_REQUEST);
-
-        Assertions.assertThat(userNotDeleted.getBody())
-                .isNull();
-
+        Assertions.assertThatThrownBy(() -> deleteUserController.deleteUser(0L))
+                .hasMessage("User doesn't exists.")
+                .isInstanceOf(BadRequestException.class);
     }
 
 }

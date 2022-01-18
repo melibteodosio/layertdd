@@ -1,5 +1,6 @@
 package br.com.packagingby.layer.user.controllers.integration;
 
+import br.com.packagingby.layer.exceptions.BadRequestException;
 import br.com.packagingby.layer.user.entities.User;
 import br.com.packagingby.layer.user.util.UserData;
 import org.assertj.core.api.Assertions;
@@ -62,6 +63,9 @@ class DeleteUserControllerIntegrationTest {
                 .isEqualTo(HttpStatus.BAD_REQUEST);
 
         Assertions.assertThat(userNotDeleted.getBody())
+                .isNotNull();
+
+        Assertions.assertThat(userNotDeleted.getBody().getName())
                 .isNull();
 
     }
