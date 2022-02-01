@@ -25,10 +25,10 @@ public class GetUserService {
 
     public User getUserByUsername(String username) {
         return usersRepository.findByUsername(username).orElseThrow(() -> new BadRequestException("User not found"));
-//        if (foundUser == null) {
-//            throw new BadRequestException("User not found");
-//        }
+    }
 
+    public List<User> findAllByName(String name) {
+        return usersRepository.findAllByName(name).orElseThrow(() -> new BadRequestException("Users not found"));
     }
 
 }

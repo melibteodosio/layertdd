@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 @ExtendWith(SpringExtension.class)
 class GetUserServiceTest {
 
@@ -42,6 +44,18 @@ class GetUserServiceTest {
 
         BDDMockito.when(usersRepositoryMock.findByUsername(ArgumentMatchers.matches("bteodosio")))
                 .thenReturn(Optional.of(UserData.createValidUser()));
+    }
+
+    @Test
+    @DisplayName("Shoudl not return all user with the same name when user name is provided")
+    void shoudlNotReturnAllUserWithTheSameNameWhenUserNameIsProvided() {
+        String name = UserData.createValidUser().getName();
+
+
+        Assertions.assertThatThrownBy(() -> getUser.findAllByName(name))
+                .hasMessage("Users not found")
+                .isInstanceOf(BadRequestException.class);
+
     }
 
     @Test
