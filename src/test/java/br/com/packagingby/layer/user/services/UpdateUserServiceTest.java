@@ -37,7 +37,7 @@ class UpdateUserServiceTest {
                 .thenReturn(Optional.of(UserData.createValidUser()));
 
         BDDMockito.when(usersRepository.findByUsername(ArgumentMatchers.matches("bteodosio")))
-                .thenReturn(UserData.createValidUser());
+                .thenReturn(Optional.of(UserData.createValidUser()));
 
         BDDMockito.when(usersRepository.save(ArgumentMatchers.any(User.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));

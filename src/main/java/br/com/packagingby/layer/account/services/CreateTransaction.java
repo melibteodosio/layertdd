@@ -29,7 +29,7 @@ public class CreateTransaction {
     private ModelMapper modelMapper;
 
     public void createTransaction(CreateTransactionRequest newTransactionRequest) throws Exception{
-        User foundUser = usersRepository.findByUsername(newTransactionRequest.getUsername());
+        User foundUser = usersRepository.findByUsername(newTransactionRequest.getUsername()).orElse(null);
 
         if (foundUser == null) {
             throw new Exception("User not found.");

@@ -29,7 +29,7 @@ public class UpdateUserService {
         userExists = usersRepository.findById(userUpdateData.getId()).orElse(null);
 
         if(userExists == null) {
-            userExists = usersRepository.findByUsername(userUpdateData.getUsername());
+            userExists = usersRepository.findByUsername(userUpdateData.getUsername()).orElseThrow(() -> new BadRequestException("User to update not found"));
         }
 
         if (userExists != null) {

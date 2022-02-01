@@ -16,7 +16,7 @@ public class CreateUserService {
     private final UsersRepository usersRepository;
 
     public User saveUser(@NotNull User newUserRequest) {
-        User userAlreadyExists = usersRepository.findByUsername(newUserRequest.getUsername());
+        User userAlreadyExists = usersRepository.findByUsername(newUserRequest.getUsername()).orElse(null);
 
         if (userAlreadyExists != null) {
             throw new BadRequestException("User already exists.");

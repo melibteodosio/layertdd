@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.validation.ValidationException;
 
@@ -33,7 +32,7 @@ class CreateUserControllerTest {
     private CreateUserService createUserServiceMock;
 
     @BeforeEach
-    void setUpMocks(){
+    void setUpMocks() {
         BDDMockito.when(createUserServiceMock.saveUser(ArgumentMatchers.isA(User.class)))
                 .thenAnswer(invocation -> {
                     User userExists = invocation.getArgument(0, User.class);
@@ -68,7 +67,7 @@ class CreateUserControllerTest {
 
     @Test
     @DisplayName("Should not create a new user when required information is not provided")
-    void shouldNotCreateANewUserWhenRequiredInformationIsNotProvided(){
+    void shouldNotCreateANewUserWhenRequiredInformationIsNotProvided() {
         BDDMockito.when(createUserServiceMock.saveUser(ArgumentMatchers.isA(User.class)))
                 .thenThrow(ValidationException.class);
 

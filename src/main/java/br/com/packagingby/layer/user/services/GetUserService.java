@@ -4,7 +4,6 @@ import br.com.packagingby.layer.exceptions.BadRequestException;
 import br.com.packagingby.layer.user.entities.User;
 import br.com.packagingby.layer.user.repositories.UsersRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,10 +24,11 @@ public class GetUserService {
     }
 
     public User getUserByUsername(String username) {
-        User foundUser = usersRepository.findByUsername(username);
-        if (foundUser == null) {
-            throw new BadRequestException("User not found");
-        }
-        return foundUser;
+        return usersRepository.findByUsername(username).orElseThrow(() -> new BadRequestException("User not found"));
+//        if (foundUser == null) {
+//            throw new BadRequestException("User not found");
+//        }
+
     }
+
 }

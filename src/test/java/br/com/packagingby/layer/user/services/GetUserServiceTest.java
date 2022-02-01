@@ -41,7 +41,7 @@ class GetUserServiceTest {
                 .thenReturn(Optional.of(UserData.createValidUser()));
 
         BDDMockito.when(usersRepositoryMock.findByUsername(ArgumentMatchers.matches("bteodosio")))
-                .thenReturn(UserData.createValidUser());
+                .thenReturn(Optional.of(UserData.createValidUser()));
     }
 
     @Test
@@ -68,7 +68,7 @@ class GetUserServiceTest {
                 .isNotNull();
 
         Assertions.assertThat(foundUser.getId())
-                .isNotNull()
+                .isPositive()
                 .isEqualTo(validUser.getId());
 
     }
@@ -84,7 +84,7 @@ class GetUserServiceTest {
                 .isNotNull();
 
         Assertions.assertThat(foundUser.getId())
-                .isNotNull()
+                .isPositive()
                 .isEqualTo(validUser.getId());
 
     }
